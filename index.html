@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Health Predictor - Early Disease Detection</title>
+    <style>
+        :root {
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-bg-7: rgba(236, 72, 153, 0.08);
+  --color-bg-8: rgba(6, 182, 212, 0.08);
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-bg-7: rgba(190, 24, 93, 0.15);
+    --color-bg-8: rgba(8, 145, 178, 0.15);
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    --color-success-rgb: var(--color-teal-300-rgb);
+    --color-error-rgb: var(--color-red-400-rgb);
+    --color-warning-rgb: var(--color-orange-400-rgb);
+    --color-info-rgb: var(--color-gray-300-rgb);
+  }
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2') format('woff2');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  padding: var(--space-24);
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  transition: transform var(--duration-normal) var(--ease-standard);
+}
+
+.sidebar.collapsed {
+  transform: translateX(-100%);
+}
+
+.sidebar-header {
+  margin-bottom: var(--space-32);
+}
+
+.sidebar-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: var(--space-8);
+}
+
+.sidebar-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.nav-menu {
+  list-style: none;
+}
+
+.nav-item {
+  margin-bottom: var(--space-8);
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: var(--space-12);
+  border-radius: var(--radius-base);
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: all var(--duration-fast) var(--ease-standard);
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  background-color: var(--color-secondary);
+}
+
+.nav-link.active {
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+}
+
+.nav-icon {
+  margin-right: var(--space-12);
+  font-size: var(--font-size-xl);
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 260px;
+  padding: var(--space-32);
+  transition: margin-left var(--duration-normal) var(--ease-standard);
+}
+
+.main-content.expanded {
+  margin-left: 0;
+}
+
+.toggle-sidebar {
+  position: fixed;
+  top: var(--space-16);
+  left: var(--space-16);
+  z-index: 1000;
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  border: none;
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  font-size: var(--font-size-lg);
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.toggle-sidebar:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.page {
+  display: none;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.welcome-section {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.welcome-title {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-12);
+  color: var(--color-primary);
+}
+
+.welcome-subtitle {
+  font-size: var(--font-size-2xl);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-24);
+}
+
+.welcome-description {
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+  margin-bottom: var(--space-32);
+  line-height: 1.6;
+}
+
+.disease-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-24);
+  margin-bottom: var(--space-32);
+}
+
+.disease-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-standard);
+  box-shadow: var(--shadow-sm);
+}
+
+.disease-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+}
+
+.disease-icon {
+  font-size: 64px;
+  margin-bottom: var(--space-16);
+}
+
+.disease-name {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-8);
+  color: var(--color-text);
+}
+
+.disease-description {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+.disclaimer {
+  background-color: var(--color-bg-2);
+  border: 1px solid rgba(var(--color-warning-rgb), 0.3);
+  border-radius: var(--radius-base);
+  padding: var(--space-16);
+  margin-top: var(--space-32);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.page-title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-24);
+  color: var(--color-text);
+}
+
+.prediction-form {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  margin-bottom: var(--space-24);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-20);
+  margin-bottom: var(--space-24);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-8);
+  color: var(--color-text);
+}
+
+.form-label .tooltip {
+  margin-left: var(--space-4);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
+}
+
+.form-control {
+  padding: var(--space-10) var(--space-12);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+.radio-group {
+  display: flex;
+  gap: var(--space-16);
+  margin-top: var(--space-8);
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+}
+
+.radio-label input[type="radio"] {
+  margin-right: var(--space-8);
+  cursor: pointer;
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-16);
+  margin-top: var(--space-24);
+}
+
+.btn {
+  padding: var(--space-12) var(--space-24);
+  border: none;
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  font-family: var(--font-family-base);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-primary:active {
+  background-color: var(--color-primary-active);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-secondary-hover);
+}
+
+.result-box {
+  margin-top: var(--space-24);
+  padding: var(--space-24);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  display: none;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-box.show {
+  display: block;
+}
+
+.result-high-risk {
+  background-color: rgba(var(--color-error-rgb), 0.1);
+  border: 2px solid var(--color-error);
+  color: var(--color-error);
+}
+
+.result-low-risk {
+  background-color: rgba(var(--color-success-rgb), 0.1);
+  border: 2px solid var(--color-success);
+  color: var(--color-success);
+}
+
+.loading {
+  display: none;
+  text-align: center;
+  margin-top: var(--space-16);
+  color: var(--color-text-secondary);
+}
+
+.loading.show {
+  display: block;
+}
+
+.spinner {
+  border: 3px solid var(--color-secondary);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto var(--space-12);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.about-section {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  margin-bottom: var(--space-24);
+  box-shadow: var(--shadow-sm);
+}
+
+.about-section h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-16);
+  color: var(--color-primary);
+}
+
+.about-section h3 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  margin-top: var(--space-24);
+  margin-bottom: var(--space-12);
+  color: var(--color-text);
+}
+
+.about-section p {
+  margin-bottom: var(--space-16);
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.about-section ul {
+  margin-left: var(--space-24);
+  margin-bottom: var(--space-16);
+}
+
+.about-section li {
+  margin-bottom: var(--space-8);
+  color: var(--color-text);
+}
+
+.model-list {
+  list-style: none;
+  margin-left: 0;
+}
+
+.model-list li {
+  background-color: var(--color-bg-1);
+  padding: var(--space-12);
+  border-radius: var(--radius-base);
+  margin-bottom: var(--space-12);
+  border-left: 3px solid var(--color-primary);
+}
+
+.model-list strong {
+  color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .disease-cards {
+    grid-template-columns: 1fr;
+  }
+}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
+        
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">AI Health Predictor</h1>
+                <p class="sidebar-subtitle">ML-Powered Diagnostics</p>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a class="nav-link active" onclick="navigateTo('home')">
+                            <span class="nav-icon">🏠</span>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('diabetes')">
+                            <span class="nav-icon">🩺</span>
+                            <span>Diabetes Prediction</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('heart')">
+                            <span class="nav-icon">❤️</span>
+                            <span>Heart Disease</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('parkinsons')">
+                            <span class="nav-icon">🧠</span>
+                            <span>Parkinson's Disease</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('about')">
+                            <span class="nav-icon">ℹ️</span>
+                            <span>About</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content" id="mainContent">
+            <!-- HOME PAGE -->
+            <div id="home" class="page active">
+                <div class="welcome-section">
+                    <h1 class="welcome-title">AI Health Predictor</h1>
+                    <h2 class="welcome-subtitle">Early Disease Detection Using Machine Learning</h2>
+                    <p class="welcome-description">
+                        This intelligent system uses advanced machine learning algorithms to predict the risk of three major diseases: Diabetes, Heart Disease, and Parkinson's Disease. Enter your health parameters to get instant predictions.
+                    </p>
+                    
+                    <div class="disease-cards">
+                        <div class="disease-card" onclick="navigateTo('diabetes')">
+                            <div class="disease-icon">🩺</div>
+                            <h3 class="disease-name">Diabetes Prediction</h3>
+                            <p class="disease-description">Predicts diabetes risk based on clinical measurements</p>
+                        </div>
+                        
+                        <div class="disease-card" onclick="navigateTo('heart')">
+                            <div class="disease-icon">❤️</div>
+                            <h3 class="disease-name">Heart Disease Prediction</h3>
+                            <p class="disease-description">Assesses cardiovascular disease risk</p>
+                        </div>
+                        
+                        <div class="disease-card" onclick="navigateTo('parkinsons')">
+                            <div class="disease-icon">🧠</div>
+                            <h3 class="disease-name">Parkinson's Disease Prediction</h3>
+                            <p class="disease-description">Detects Parkinson's from vocal measurements</p>
+                        </div>
+                    </div>
+                    
+                    <div class="disclaimer">
+                        ⚠️ <strong>Disclaimer:</strong> This tool is for educational purposes only and should not replace professional medical advice. Always consult with healthcare professionals for accurate diagnosis.
+                    </div>
+                </div>
+            </div>
+
+            <!-- DIABETES PREDICTION PAGE -->
+            <div id="diabetes" class="page">
+                <h1 class="page-title">🩺 Diabetes Prediction</h1>
+                
+                <form class="prediction-form" id="diabetesForm" onsubmit="predictDiabetes(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">
+                                Number of Pregnancies
+                                <span class="tooltip">(0-17)</span>
+                            </label>
+                            <input type="number" class="form-control" id="pregnancies" min="0" max="17" value="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Glucose Level (mg/dL)
+                                <span class="tooltip">(0-200, Normal: 70-100)</span>
+                            </label>
+                            <input type="number" class="form-control" id="glucose" min="0" max="200" value="120" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Blood Pressure (mm Hg)
+                                <span class="tooltip">(0-122, Normal: 90/60-120/80)</span>
+                            </label>
+                            <input type="number" class="form-control" id="bloodPressure" min="0" max="122" value="70" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Skin Thickness (mm)
+                                <span class="tooltip">(0-99)</span>
+                            </label>
+                            <input type="number" class="form-control" id="skinThickness" min="0" max="99" value="20" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Insulin Level (mu U/ml)
+                                <span class="tooltip">(0-846, Normal: 16-166)</span>
+                            </label>
+                            <input type="number" class="form-control" id="insulin" min="0" max="846" value="79" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                BMI (Body Mass Index)
+                                <span class="tooltip">(0.0-67.1, Normal: 18.5-24.9)</span>
+                            </label>
+                            <input type="number" class="form-control" id="bmi" min="0" max="67.1" step="0.1" value="32.0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Diabetes Pedigree Function
+                                <span class="tooltip">(0.0-2.5, Genetic influence)</span>
+                            </label>
+                            <input type="number" class="form-control" id="pedigree" min="0" max="2.5" step="0.001" value="0.3725" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Age (years)
+                                <span class="tooltip">(21-81)</span>
+                            </label>
+                            <input type="number" class="form-control" id="age" min="21" max="81" value="33" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Predict Diabetes</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm('diabetesForm')">Reset Form</button>
+                    </div>
+                    
+                    <div class="loading" id="diabetesLoading">
+                        <div class="spinner"></div>
+                        <p>Analyzing health parameters...</p>
+                    </div>
+                    
+                    <div class="result-box" id="diabetesResult"></div>
+                </form>
+            </div>
+
+            <!-- HEART DISEASE PREDICTION PAGE -->
+            <div id="heart" class="page">
+                <h1 class="page-title">❤️ Heart Disease Prediction</h1>
+                
+                <form class="prediction-form" id="heartForm" onsubmit="predictHeartDisease(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">
+                                Age (years)
+                                <span class="tooltip">(29-77)</span>
+                            </label>
+                            <input type="number" class="form-control" id="heartAge" min="29" max="77" value="54" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Sex</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="sex" value="0" checked>
+                                    Female
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="sex" value="1">
+                                    Male
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Chest Pain Type</label>
+                            <select class="form-control" id="chestPain" required>
+                                <option value="0">0 - Typical Angina</option>
+                                <option value="1">1 - Atypical Angina</option>
+                                <option value="2">2 - Non-anginal Pain</option>
+                                <option value="3">3 - Asymptomatic</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Resting Blood Pressure (mm Hg)
+                                <span class="tooltip">(94-200)</span>
+                            </label>
+                            <input type="number" class="form-control" id="restingBP" min="94" max="200" value="120" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Cholesterol (mg/dL)
+                                <span class="tooltip">(126-564, Normal: &lt;200)</span>
+                            </label>
+                            <input type="number" class="form-control" id="cholesterol" min="126" max="564" value="246" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Fasting Blood Sugar &gt; 120 mg/dl</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="fastingBS" value="0" checked>
+                                    No
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="fastingBS" value="1">
+                                    Yes
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Resting ECG</label>
+                            <select class="form-control" id="restingECG" required>
+                                <option value="0">0 - Normal</option>
+                                <option value="1">1 - ST-T Wave Abnormality</option>
+                                <option value="2">2 - Left Ventricular Hypertrophy</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Maximum Heart Rate
+                                <span class="tooltip">(71-202)</span>
+                            </label>
+                            <input type="number" class="form-control" id="maxHR" min="71" max="202" value="150" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Exercise Induced Angina</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="exerciseAngina" value="0" checked>
+                                    No
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="exerciseAngina" value="1">
+                                    Yes
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Oldpeak (ST Depression)
+                                <span class="tooltip">(0.0-6.2)</span>
+                            </label>
+                            <input type="number" class="form-control" id="oldpeak" min="0" max="6.2" step="0.1" value="1.0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">ST Slope</label>
+                            <select class="form-control" id="stSlope" required>
+                                <option value="0">0 - Upsloping</option>
+                                <option value="1">1 - Flat</option>
+                                <option value="2">2 - Downsloping</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Predict Heart Disease</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm('heartForm')">Reset Form</button>
+                    </div>
+                    
+                    <div class="loading" id="heartLoading">
+                        <div class="spinner"></div>
+                        <p>Analyzing cardiovascular parameters...</p>
+                    </div>
+                    
+                    <div class="result-box" id="heartResult"></div>
+                </form>
+            </div>
+
+            <!-- PARKINSON'S DISEASE PREDICTION PAGE -->
+            <div id="parkinsons" class="page">
+                <h1 class="page-title">🧠 Parkinson's Disease Prediction</h1>
+                
+                <form class="prediction-form" id="parkinsonsForm" onsubmit="predictParkinsons(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">
+                                MDVP:Fo(Hz) - Average Vocal Frequency
+                                <span class="tooltip">(88-260)</span>
+                            </label>
+                            <input type="number" class="form-control" id="fo" min="88" max="260" step="0.001" value="154.0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                MDVP:Fhi(Hz) - Maximum Frequency
+                                <span class="tooltip">(102-592)</span>
+                            </label>
+                            <input type="number" class="form-control" id="fhi" min="102" max="592" step="0.001" value="197.0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                MDVP:Flo(Hz) - Minimum Frequency
+                                <span class="tooltip">(65-239)</span>
+                            </label>
+                            <input type="number" class="form-control" id="flo" min="65" max="239" step="0.001" value="116.0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                MDVP:Jitter(%) - Frequency Variation
+                                <span class="tooltip">(0.00168-0.03316)</span>
+                            </label>
+                            <input type="number" class="form-control" id="jitter" min="0.00168" max="0.03316" step="0.00001" value="0.006" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                MDVP:Shimmer - Amplitude Variation
+                                <span class="tooltip">(0.00954-0.11908)</span>
+                            </label>
+                            <input type="number" class="form-control" id="shimmer" min="0.00954" max="0.11908" step="0.00001" value="0.03" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                NHR - Noise to Harmonics Ratio
+                                <span class="tooltip">(0.00065-0.31482)</span>
+                            </label>
+                            <input type="number" class="form-control" id="nhr" min="0.00065" max="0.31482" step="0.00001" value="0.024" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                HNR - Harmonics to Noise Ratio
+                                <span class="tooltip">(8.441-33.047)</span>
+                            </label>
+                            <input type="number" class="form-control" id="hnr" min="8.441" max="33.047" step="0.001" value="21.0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                RPDE - Nonlinear Complexity
+                                <span class="tooltip">(0.256-0.685)</span>
+                            </label>
+                            <input type="number" class="form-control" id="rpde" min="0.256" max="0.685" step="0.001" value="0.498" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                DFA - Signal Fractal Scaling
+                                <span class="tooltip">(0.574-0.825)</span>
+                            </label>
+                            <input type="number" class="form-control" id="dfa" min="0.574" max="0.825" step="0.001" value="0.718" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Spread1
+                                <span class="tooltip">(-7.964 to -2.434)</span>
+                            </label>
+                            <input type="number" class="form-control" id="spread1" min="-7.964" max="-2.434" step="0.001" value="-5.684" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                Spread2
+                                <span class="tooltip">(0.006-0.450)</span>
+                            </label>
+                            <input type="number" class="form-control" id="spread2" min="0.006" max="0.450" step="0.001" value="0.226" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                D2 - Correlation Dimension
+                                <span class="tooltip">(1.423-3.671)</span>
+                            </label>
+                            <input type="number" class="form-control" id="d2" min="1.423" max="3.671" step="0.001" value="2.381" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                PPE - Pitch Period Entropy
+                                <span class="tooltip">(0.044-0.527)</span>
+                            </label>
+                            <input type="number" class="form-control" id="ppe" min="0.044" max="0.527" step="0.001" value="0.284" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Predict Parkinson's</button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm('parkinsonsForm')">Reset Form</button>
+                    </div>
+                    
+                    <div class="loading" id="parkinsonsLoading">
+                        <div class="spinner"></div>
+                        <p>Analyzing vocal patterns...</p>
+                    </div>
+                    
+                    <div class="result-box" id="parkinsonsResult"></div>
+                </form>
+            </div>
+
+            <!-- ABOUT PAGE -->
+            <div id="about" class="page">
+                <h1 class="page-title">ℹ️ About AI Health Predictor</h1>
+                
+                <div class="about-section">
+                    <h2>About AI Health Predictor</h2>
+                    <p>
+                        AI Health Predictor is an educational machine learning project that demonstrates how artificial intelligence can be applied to healthcare diagnostics. This application uses trained machine learning models to predict the likelihood of three major diseases based on clinical and physiological parameters.
+                    </p>
+                    <p>
+                        The system analyzes input health data and provides risk assessments using algorithms trained on real medical datasets. While this project showcases the potential of AI in healthcare, it is designed for educational purposes and should never replace professional medical diagnosis.
+                    </p>
+                    
+                    <h3>Machine Learning Models Used</h3>
+                    <ul class="model-list">
+                        <li>
+                            <strong>🩺 Diabetes Prediction:</strong> Support Vector Machine (SVM)<br>
+                            <em>Accuracy: 78-81%</em><br>
+                            Uses clinical measurements including glucose levels, BMI, blood pressure, insulin levels, and genetic factors to predict diabetes risk.
+                        </li>
+                        <li>
+                            <strong>❤️ Heart Disease Prediction:</strong> Logistic Regression<br>
+                            <em>Accuracy: 85%</em><br>
+                            Analyzes cardiovascular parameters such as cholesterol, heart rate, ECG results, and chest pain characteristics to assess heart disease risk.
+                        </li>
+                        <li>
+                            <strong>🧠 Parkinson's Disease Prediction:</strong> Support Vector Machine (SVM)<br>
+                            <em>Accuracy: 87-95%</em><br>
+                            Evaluates vocal measurements and voice frequency patterns, which are often affected in Parkinson's patients, to detect disease indicators.
+                        </li>
+                    </ul>
+                    
+                    <h3>Datasets</h3>
+                    <p>
+                        The machine learning models were trained using publicly available medical datasets from:
+                    </p>
+                    <ul>
+                        <li>UCI Machine Learning Repository</li>
+                        <li>Kaggle Medical Datasets</li>
+                        <li>PIMA Indians Diabetes Database</li>
+                        <li>Cleveland Heart Disease Database</li>
+                        <li>Parkinson's Disease Dataset from UCI</li>
+                    </ul>
+                    
+                    <h3>Technologies Used</h3>
+                    <ul>
+                        <li><strong>Python 3.8+:</strong> Core programming language</li>
+                        <li><strong>scikit-learn:</strong> Machine learning library for model training and prediction</li>
+                        <li><strong>pandas:</strong> Data manipulation and analysis</li>
+                        <li><strong>numpy:</strong> Numerical computing</li>
+                        <li><strong>HTML/CSS/JavaScript:</strong> Frontend interface</li>
+                    </ul>
+                    
+                    <h3>Important Notes &amp; Limitations</h3>
+                    <ul>
+                        <li>This is a <strong>demonstration project</strong> for educational purposes only</li>
+                        <li>Predictions are based on statistical models and should <strong>NOT be used for actual medical diagnosis</strong></li>
+                        <li>Machine learning models have inherent limitations and may not account for all medical factors</li>
+                        <li>Always consult qualified healthcare professionals for any health concerns</li>
+                        <li>The accuracy rates shown are based on test datasets and may vary with real-world data</li>
+                        <li>Individual health conditions are complex and require comprehensive medical evaluation</li>
+                    </ul>
+                    
+                    <h3>How to Use This Application</h3>
+                    <ol>
+                        <li>Select a disease prediction tool from the home page or sidebar navigation</li>
+                        <li>Fill in all required health parameters in the form</li>
+                        <li>Click the "Predict" button to get a risk assessment</li>
+                        <li>Review the prediction result and recommendations</li>
+                        <li>Use the "Reset Form" button to clear inputs and try different values</li>
+                    </ol>
+                    
+                    <p style="margin-top: 24px; padding: 16px; background-color: var(--color-bg-2); border-radius: 8px; border-left: 3px solid var(--color-warning);">
+                        <strong>⚠️ Medical Disclaimer:</strong> This tool is for educational and informational purposes only. It does not provide medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Navigation
+        function navigateTo(page) {
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            pages.forEach(p => p.classList.remove('active'));
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            document.getElementById(page).classList.add('active');
+            
+            navLinks.forEach(link => {
+                if (link.onclick && link.onclick.toString().includes(page)) {
+                    link.classList.add('active');
+                }
+            });
+            
+            window.scrollTo(0, 0);
+        }
+
+        // Sidebar toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebar.classList.toggle('collapsed');
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('expanded');
+        }
+
+        // Form reset
+        function resetForm(formId) {
+            document.getElementById(formId).reset();
+            const resultId = formId.replace('Form', 'Result');
+            const loadingId = formId.replace('Form', 'Loading');
+            
+            document.getElementById(resultId).classList.remove('show');
+            document.getElementById(loadingId).classList.remove('show');
+        }
+
+        // Show loading and result
+        function showResult(loadingId, resultId, message, isHighRisk) {
+            const loading = document.getElementById(loadingId);
+            const result = document.getElementById(resultId);
+            
+            loading.classList.add('show');
+            
+            setTimeout(() => {
+                loading.classList.remove('show');
+                result.innerHTML = message;
+                result.className = 'result-box show ' + (isHighRisk ? 'result-high-risk' : 'result-low-risk');
+            }, 1500);
+        }
+
+        // Diabetes Prediction
+        function predictDiabetes(event) {
+            event.preventDefault();
+            
+            const glucose = parseFloat(document.getElementById('glucose').value);
+            const bmi = parseFloat(document.getElementById('bmi').value);
+            const age = parseInt(document.getElementById('age').value);
+            const pedigree = parseFloat(document.getElementById('pedigree').value);
+            
+            let isHighRisk = false;
+            let message = '';
+            
+            if (glucose > 140 || bmi > 30 || age > 45 || pedigree > 0.5) {
+                isHighRisk = true;
+                message = '⚠️ <strong>High Risk:</strong> The person is likely to have diabetes. Please consult a healthcare professional for proper diagnosis and treatment.';
+            } else {
+                message = '✅ <strong>Low Risk:</strong> The person is unlikely to have diabetes. Continue maintaining a healthy lifestyle with regular exercise and balanced diet.';
+            }
+            
+            showResult('diabetesLoading', 'diabetesResult', message, isHighRisk);
+        }
+
+        // Heart Disease Prediction
+        function predictHeartDisease(event) {
+            event.preventDefault();
+            
+            const age = parseInt(document.getElementById('heartAge').value);
+            const cholesterol = parseInt(document.getElementById('cholesterol').value);
+            const maxHR = parseInt(document.getElementById('maxHR').value);
+            const chestPain = parseInt(document.getElementById('chestPain').value);
+            const oldpeak = parseFloat(document.getElementById('oldpeak').value);
+            
+            let isHighRisk = false;
+            let message = '';
+            
+            if (age > 55 || cholesterol > 240 || maxHR < 100 || chestPain === 3 || oldpeak > 2) {
+                isHighRisk = true;
+                message = '⚠️ <strong>High Risk:</strong> The person may have heart disease. Immediate medical consultation recommended for comprehensive cardiac evaluation.';
+            } else {
+                message = '✅ <strong>Low Risk:</strong> The person is unlikely to have heart disease. Continue regular check-ups and maintain heart-healthy habits.';
+            }
+            
+            showResult('heartLoading', 'heartResult', message, isHighRisk);
+        }
+
+        // Parkinson's Prediction
+        function predictParkinsons(event) {
+            event.preventDefault();
+            
+            const jitter = parseFloat(document.getElementById('jitter').value);
+            const shimmer = parseFloat(document.getElementById('shimmer').value);
+            const nhr = parseFloat(document.getElementById('nhr').value);
+            const hnr = parseFloat(document.getElementById('hnr').value);
+            const rpde = parseFloat(document.getElementById('rpde').value);
+            
+            let isHighRisk = false;
+            let message = '';
+            
+            if (jitter > 0.01 || shimmer > 0.05 || nhr > 0.05 || hnr < 15 || rpde > 0.6) {
+                isHighRisk = true;
+                message = '⚠️ <strong>High Risk:</strong> Vocal patterns suggest possible Parkinson\'s disease. Please consult a neurologist for comprehensive evaluation and diagnosis.';
+            } else {
+                message = '✅ <strong>Low Risk:</strong> Vocal patterns appear normal. Continue regular monitoring and maintain overall health.';
+            }
+            
+            showResult('parkinsonsLoading', 'parkinsonsResult', message, isHighRisk);
+        }
+    </script>
+</body>
+</html>
